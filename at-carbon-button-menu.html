@@ -24,14 +24,14 @@
     <div class="relative">
       <div class="absolute">
         <at-carbon-button raised id="carbonButton">
-          <template is="dom-if" if="[[_showButtonIcon(icon)]]">
+          <template is="dom-if" if="[[icon]]">
             <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
           </template>
           <span class$="[[_computeLabelClassList(icon)]]">[[label]]</span>
-          <at-carbon-icon id="arrowIcon" icon="now:arrow-up"></at-carbon-icon>
+          <at-carbon-icon id="arrowIcon" icon="now:arrow-up" disabled$="{{!items.length}}"></at-carbon-icon>
         </at-carbon-button>
-        <at-core-dropdown id="coreDropdown" y-offset="2">
-          <at-carbon-menu items="[[items]]" item-view="[[itemView]]"></at-carbon-menu>
+        <at-core-dropdown id="coreDropdown" y-offset="2" on-open-changed="_handleOpenChanged">
+          <at-carbon-menu id="carbonMenu" items="[[items]]" item-view="[[itemView]]" on-tap="_handleMenuOnTap"></at-carbon-menu>
         </at-core-dropdown>        
       </div>
     </div>
@@ -89,11 +89,7 @@
     },
 
     listeners: {
-      'carbonButton.tap': '_handleHostOnTap'
-    },
-
-    _showButtonIcon: function(icon) {
-      return !!icon;
+      'carbonButton.tap': '_handleCarbonButtonOnTap'
     },
 
     _computeLabelClassList: function(icon) {
@@ -102,11 +98,9 @@
       return result.join(" ");
     },
 
-    _handleHostOnTap: function(event) {      
-      // change icon
-      var current = this.$.arrowIcon.icon;
-      var next = current === "now:arrow-down" ? "now:arrow-up" : "now:arrow-down";
-      this.$.arrowIcon.icon = next;
+    _handleCarbonButtonOnTap: function(event) {
+      // if there are no menu items return
+      if (!this.items.length) { return; }
 
       // toggle dropdown
       if (this.$.coreDropdown.open) {
@@ -114,6 +108,18 @@
       } else {
         this.$.coreDropdown.show(event, this.$.carbonButton);
       }
+    },
+
+    _handleMenuOnTap: function(event) {
+      this.$.coreDropdown.hide();
+
+      var value = this.$.carbonMenu.value;
+      // TODO @Temporary right now value of clicked item is passed; this may not be adequate
+      this.fire('menu-item-clicked', { value: value });
+    },
+
+    _handleOpenChanged: function() {
+      this.$.arrowIcon.icon = this.$.coreDropdown.open ? "now:arrow-up" : "now:arrow-down";;
     },
 
     ready: function() {
