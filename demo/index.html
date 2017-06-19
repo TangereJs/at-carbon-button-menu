@@ -1,85 +1,110 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>at-carbon-button-menu demo page</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>at-carbon-button-menu demo page</title>
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../../at-theme/at-theme.html">
-  <link rel="import" href="../at-carbon-button-menu.html">
-  
-  <style is="custom-style">
-    .debug * {
-      border: 1px solid purple;
-    }
-    .demo-container {      
-      margin: 32px 25% 0 25%;
-    }
-    .demo-title {
-      @apply(--paper-font-body1);
-      font-size: 18px;
-      font-weight: 600;
-    }
-  </style>
-</head>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../at-theme/at-theme.html">
+    <link rel="import" href="../../at-doc-snippet/at-doc-snippet.html" />
+    <link rel="import" href="../at-carbon-button-menu.html">
 
-<body>
-  <div class="demo-container">
-    <h4 class="demo-title">No icon, no label, no menu items, default view</h4>
-    <at-carbon-button-menu></at-carbon-button-menu>
-  </div>
-  
-  <div class="demo-container">
-    <h4 class="demo-title">With icon, no label, no menu items, default view</h4>
-    <at-carbon-button-menu icon="now:wrench"></at-carbon-button-menu>
-  </div>
-
-  <div class="demo-container">
-    <h4 class="demo-title">No icon, with label, no menu items, default view</h4>
-    <at-carbon-button-menu label="Lorem ipsum"></at-carbon-button-menu>
-  </div>
-
-  <div class="demo-container">
-    <h4 class="demo-title">With icon, with label, no menu items, default view</h4>
-    <at-carbon-button-menu icon="now:wrench" label="Lorem ipsum"></at-carbon-button-menu>
-  </div>
-
-  <div class="demo-container">
-    <h4 class="demo-title">With icon, with label, with menu items, default view</h4>
-    <at-carbon-button-menu id="buttonMenu1" icon="now:wrench" label="Lorem ipsum"></at-carbon-button-menu>
-  </div>
-
-  <script>
-    document.addEventListener('WebComponentsReady', function() {
-      var items = [
-        // { title: "Item1", value: 'item1', icon: "now:ambulance" },
-        // { title: "Item2", value: 'item2', icon: "now:ambulance" },
-        // { title: "Item3", value: 'item3', icon: "now:ambulance" },
-        // { title: "Item4", value: 'item4', icon: "now:ambulance" },
-        // { title: "Item5", value: 'item5', icon: "now:ambulance" }
-        { title: "Item1", value: 'item1' },
-        { title: "Item2", value: 'item2' },
-        { title: "Item3", value: 'item3' },
-        { title: "Item4", value: 'item4' },
-        { title: "Item5", value: 'item5' }
-      ];
-
-      function initDemo(selector, items) {
-        var buttonMenu = document.getElementById(selector);        
-        buttonMenu.items = items;
-
-        buttonMenu.addEventListener('menu-item-clicked', function(event) {
-          var originalEvent = event.detail.value;
-
-          console.log('menu item clicked : ' + originalEvent);
-        });
+    <style is="custom-style">
+      .debug * {
+        border: 1px solid purple;
       }
 
-      initDemo('buttonMenu1', items);
-    });
-  </script>
-</body>
+      :root {
+        --at-doc-snippet-demo: {
+          height: 250px;
+        };
+      }
+
+      .demo-container {
+        margin: 32px 25% 0 25%;
+      }
+
+      .demo-title {
+        @apply(--paper-font-body1);
+        font-size: 18px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">No icon, no label, no menu items, default view</h4>
+          <at-carbon-button-menu></at-carbon-button-menu>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">With icon, no label, no menu items, default view</h4>
+          <at-carbon-button-menu icon="now:wrench"></at-carbon-button-menu>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">No icon, with label, no menu items, default view</h4>
+          <at-carbon-button-menu label="Lorem ipsum"></at-carbon-button-menu>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">With icon, with label, no menu items, default view</h4>
+          <at-carbon-button-menu icon="now:wrench" label="Lorem ipsum"></at-carbon-button-menu>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">With icon, with label, with menu items, default view</h4>
+          <at-carbon-button-menu id="buttonMenu" icon="now:wrench" label="Lorem ipsum"
+            items='[{"title":"Item1","value":"item1"},{"title":"Item2","value":"item2"},{"title":"Item3","value":"item3"},{"title":"Item4","value":"item4"},{"title":"Item5","value":"item5"}]'
+          ></at-carbon-button-menu>
+          <script>
+            // Java script is never executed in at-doc-snippet
+            console.log('Java script is never executed in at-doc-snippet');
+          </script>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">With icon, with label, with menu items with icons, default view</h4>
+          <at-carbon-button-menu id="buttonMenu" icon="now:wrench" label="Lorem ipsum"
+            items='[{"title":"Item1","value":"item1","icon":"now:ambulance"},{"title":"Item2","value":"item2","icon":"now:ambulance"},{"title":"Item3","value":"item3","icon":"now:ambulance"},{"title":"Item4","value":"item4","icon":"now:ambulance"},{"title":"Item5","value":"item5","icon":"now:ambulance"}]'
+          ></at-carbon-button-menu>
+          <script>
+            // Java script is never executed in at-doc-snippet
+            console.log('Java script is never executed in at-doc-snippet');
+          </script>
+        </template>
+      </at-doc-snippet>
+    </div>
+
+    <script>
+      document.addEventListener('WebComponentsReady', function() {
+      });
+    </script>
+  </body>
 
 </html>

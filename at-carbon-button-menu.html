@@ -1,4 +1,5 @@
 <link rel="import" href="../tangere/tangere.html" />
+<link rel="import" href="../at-theme/at-theme.html" />
 <link rel="import" href="../at-carbon-icon/at-carbon-icon.html" />
 <link rel="import" href="../at-carbon-button/at-carbon-button.html" />
 <link rel="import" href="../at-core-dropdown/at-core-dropdown.html" />
@@ -21,6 +22,15 @@
         position: absolute;
       }
 
+      .arrow-icon-container {
+        vertical-align: middle;
+      }
+
+      .arrow-icon {
+        width: var(--at-inline-icon-size);
+        height: var(--at-inline-icon-size);
+      }
+
       .button-label {
         @apply(--paper-font-body1);
         vertical-align: middle;
@@ -37,7 +47,7 @@
             <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
           </template>
           <span class$="[[_computeLabelClassList(icon)]]">[[label]]</span>
-          <at-carbon-icon id="arrowIcon" icon="now:arrow-up" disabled$="{{!items.length}}"></at-carbon-icon>
+          <span class="arrow-icon-container"><at-carbon-icon id="arrowIcon" icon="now:caret-up" class="arrow-icon" hidden$="{{!items.length}}"></at-carbon-icon></span>
         </at-carbon-button>
         <at-core-dropdown id="coreDropdown" y-offset="1" on-open-changed="_handleOpenChanged" position="[[position]]">
           <at-carbon-menu id="carbonMenu" items="[[items]]" item-view="[[itemView]]" on-tap="_handleMenuOnTap"></at-carbon-menu>
@@ -148,7 +158,7 @@
     },
 
     _handleOpenChanged: function() {
-      this.$.arrowIcon.icon = this.$.coreDropdown.open ? "now:arrow-up" : "now:arrow-down";;
+      this.$.arrowIcon.icon = this.$.coreDropdown.open ? "now:caret-up" : "now:caret-down";;
     },
 
     ready: function() {
