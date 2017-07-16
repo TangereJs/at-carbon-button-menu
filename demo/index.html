@@ -100,6 +100,21 @@
         </template>
       </at-doc-snippet>
     </div>
+    
+     <div class="demo-container">
+      <at-doc-snippet>
+        <template>
+          <h4 class="demo-title">select-mode: "link" allows to open urls from a list of links</h4>
+          <at-carbon-button-menu id="buttonMenu" icon="now:search" label="Search..." select-mode="link"
+            items='[{"title":"Google","value":"https://www.google.com","icon":"now:search"},{"title":"Bing","value":"https://www.bing.com","icon":"now:search"}]'>
+          </at-carbon-button-menu>
+          <script>
+            // Java script is never executed in at-doc-snippet
+            console.log('Java script is never executed in at-doc-snippet');
+          </script>
+        </template>
+      </at-doc-snippet>
+    </div>
 
     <script>
       document.addEventListener('WebComponentsReady', function() {
