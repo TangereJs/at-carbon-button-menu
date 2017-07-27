@@ -41,6 +41,10 @@
         margin-left: 8px;
       }
 
+      .item-container {
+        white-space: nowrap;
+      }
+
       .icon-class {
         padding: 0 12px 0 0;
       }
@@ -114,7 +118,7 @@
         type: String,
         xtype: 'code',
         mode: 'liquidmixed',
-        value: '<div><at-carbon-icon icon="{{icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>',
+        value: '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>',
         xgridcols: "12"
       },
 
