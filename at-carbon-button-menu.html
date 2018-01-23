@@ -51,10 +51,10 @@
         <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
       </template>
       <span class$="[[_computeLabelClassList(icon)]]">[[label]]</span>
-      <span class="arrow-icon-container"><at-carbon-icon id="arrowIcon" icon="now:caret-up" class="arrow-icon" hidden$="{{!items.length}}"></at-carbon-icon></span>
+      <span class="arrow-icon-container"><at-carbon-icon id="arrowIcon" icon="now:caret-up" class="arrow-icon" hidden$="[[_computeArrowHidden(items)]]"></at-carbon-icon></span>
     </at-carbon-button>
     <at-core-dropdown id="coreDropdown" y-offset="1" on-open-changed="_handleOpenChanged" position="[[position]]">
-      <at-carbon-menu id="carbonMenu" items="[[items]]" item-view="[[itemView]]" on-tap="_handleMenuOnTap"></at-carbon-menu>
+      <at-carbon-menu id="carbonMenu" item-view="[[itemView]]" on-tap="_handleMenuOnTap"></at-carbon-menu>
     </at-core-dropdown>
     <at-link id="link" style="display:none"></at-link>
   </template>
@@ -77,6 +77,7 @@
       items: {
         type: Array,
         value: function() { return []; },
+        observer: '_itemsChanged',
         schema: {
           items: {
             properties: {
@@ -191,6 +192,20 @@
 
     _handleOpenChanged: function() {
       this.$.arrowIcon.icon = this.$.coreDropdown.open ? "now:caret-up" : "now:caret-down";;
+    },
+
+    _isArray: function(obj) {
+      return Object.prototype.toString.apply(obj) === "[object Array]";
+    },
+
+    _itemsChanged: function(newValue, oldValue) {
+      if (!this._isArray(newValue)) return;
+      this.$.carbonMenu.items = newValue;
+    },
+
+    _computeArrowHidden: function(items) {
+      if (!this._isArray(items)) return true;
+      return !items.length;
     },
 
     ready: function() {

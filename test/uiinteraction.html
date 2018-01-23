@@ -20,82 +20,150 @@
   <script>
     suite('ui interaction tests', function() {
 
-      function assertTitleValue(elt, titleValue) {
-        // find the h2
-        var h2Elt = Polymer.dom(elt.root).querySelector('h2');
-        assert.equal(h2Elt.innerHTML, titleValue);
+      function assertPropertyValue(elt, name, value) {
+        assert.deepEqual(elt[name], value);
       }
 
-      function assertMessageValue(elt, messageValue) {
-        // find the message div
-        var divs = Polymer.dom(elt.root).querySelectorAll('div');
-        assert.equal(divs.length, 2);
+      var itemViewInitVal = '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>';
+
+      var itemsVal = [
+        { title: 'Item 1', value: 1, icon: "now:caret-up" },
+        { title: 'Item 2', value: 2, icon: "now:trash" },
+        { title: 'Item 3', value: 3, icon: "now:caret-down" },
+      ];
+
+      var itemViewVal = '<span>{{icon}}<span><strong>{{title}}</strong>';
+
+      function assertIconHtml(elt, value) {
+        assertPropertyValue(elt, 'icon', value);
+
+        if (!value) {
+          // assert icon html
+          var iconElt = elt.$.carbonButton.getEffectiveChildren()[0];
+          assert.equal(iconElt.nodeName, "TEMPLATE");
         
-        var msgDiv = divs[0];
-        var trimmedTextContent = msgDiv.textContent.trim();
-        assert.equal(trimmedTextContent, messageValue);
+        } else {
+          // assert icon html
+          var iconElt = elt.$.carbonButton.getEffectiveChildren()[0];
+          assert.equal(iconElt.nodeName, "AT-CARBON-ICON");
+          assert.equal(iconElt.icon, value);
+        }
       }
 
-      function assertCancelButtonText(elt, cancelButtonText) {
-        // get the cancelButton
-        var cancelButton = Polymer.dom(elt.root).querySelector('paper-button[dialog-dismiss]');
-        assert.equal(cancelButton.textContent, cancelButtonText);
+      function assertLabelHtml(elt, value) {
+        assertPropertyValue(elt, 'label', value);
+
+        var labelElt = elt.$.carbonButton.queryEffectiveChildren(".button-label");
+        assert.isNotNull(labelElt);
+        assert.equal(labelElt.textContent, value);
+
+        if (elt.icon) {
+          assert.equal(labelElt.classList.contains('with-icon'), true);
+        
+        } else {
+          assert.equal(labelElt.classList.contains('with-icon'), false);
+        }
       }
 
-      function assertConfirmButtonText(elt, confirmButtonText) {
-        // get the cancelButton
-        var button = Polymer.dom(elt.root).querySelector('paper-button[dialog-confirm]');
-        assert.equal(button.textContent, confirmButtonText);
+      function assertItemsHtml(elt, value) {
+        assertPropertyValue(elt, 'items', value);
+
+        var cm = elt.$.carbonMenu;
+        assert.deepEqual(cm.items, value);
+
+        var cCount = Polymer.dom(cm.root).children.length;
+        // assert correct number of children based on shady/shadow root
+        if (cm.shadowRoot) {
+          assert.equal(cCount, value.length+2);
+          
+        } else {
+          assert.equal(cCount, value.length+1);
+        }
+
+        // assert that arrowIcon is correctly hidden
+        if (value.length) {
+          assert.equal(elt.$.arrowIcon.hasAttribute('hidden'), false);
+        
+        } else {
+          assert.equal(elt.$.arrowIcon.hasAttribute('hidden'), true);
+        }
+      }
+
+      function assertItemViewHtml(elt, value) {
+        assertPropertyValue(elt, 'itemView', value);
+
+        assert.deepEqual(elt.$.carbonMenu.itemView, value);
+      }
+
+      function assertPositionHtml(elt, value) {
+        assertPropertyValue(elt, 'position', value);
+
+        assert.deepEqual(elt.$.coreDropdown.position, value);
       }
 
       test('ui interaction test', function() {
         var elt = fixture('propertyTests');
 
-        assertTitleValue(elt, '');
-        assertMessageValue(elt, '');
-        assertCancelButtonText(elt, '');
-        assertConfirmButtonText(elt, 'Ok');
-        assert.equal(elt.$.dialog.opened, false);
+        Polymer.dom.flush();
 
-        elt.title = "lorem ipsum";
-        
-        assertTitleValue(elt, 'lorem ipsum');
-        assertMessageValue(elt, '');
-        assertCancelButtonText(elt, '');
-        assertConfirmButtonText(elt, 'Ok');
-        assert.equal(elt.$.dialog.opened, false);
+        assertIconHtml(elt, '');
+        assertLabelHtml(elt, '');
+        assertItemsHtml(elt, []);
+        assertItemViewHtml(elt, itemViewInitVal);
+        assertPositionHtml(elt, 'bottomLeft');
+        assertPropertyValue(elt, 'selectMode', 'event');
 
-        elt.message = "lorem ipsum";
-        
-        assertTitleValue(elt, 'lorem ipsum');
-        assertMessageValue(elt, 'lorem ipsum');
-        assertCancelButtonText(elt, '');
-        assertConfirmButtonText(elt, 'Ok');
-        assert.equal(elt.$.dialog.opened, false);
+        elt.icon = "now:ambulance";
+        Polymer.dom.flush();
+        assertIconHtml(elt, "now:ambulance");
 
-        elt.confirmButton = "OK Buttton"
+        elt.label = "lorem ipsum";
+        Polymer.dom.flush();
+        assertLabelHtml(elt, "lorem ipsum");
 
-        assertTitleValue(elt, 'lorem ipsum');
-        assertMessageValue(elt, 'lorem ipsum');
-        assertCancelButtonText(elt, '');
-        assertConfirmButtonText(elt, 'OK Buttton');
-        assert.equal(elt.$.dialog.opened, false);
+        MockInteractions.tap(elt.$.carbonButton);
+        assertPropertyValue(elt.$.coreDropdown, 'open', false);
+        assert.equal(elt.$.arrowIcon.icon, "now:caret-down");
 
-        elt.cancelButton = "Cancel button";
+        elt.items = itemsVal;
+        Polymer.dom.flush();
+        assertItemsHtml(elt, itemsVal);
 
-        assertTitleValue(elt, 'lorem ipsum');
-        assertMessageValue(elt, 'lorem ipsum');
-        assertCancelButtonText(elt, 'Cancel button');
-        assertConfirmButtonText(elt, 'OK Buttton');
-        assert.equal(elt.$.dialog.opened, false);
+        MockInteractions.tap(elt.$.carbonButton);
+        assertPropertyValue(elt.$.coreDropdown, 'open', true);
+        assert.equal(elt.$.arrowIcon.icon, "now:caret-up");
 
-        elt.opened = true;
+        elt.itemView = itemViewVal;
+        Polymer.dom.flush();
+        assertItemViewHtml(elt, itemViewVal);
 
-        assertTitleValue(elt, 'lorem ipsum');
-        assertMessageValue(elt, 'lorem ipsum');
-        assertCancelButtonText(elt, 'Cancel button');
-        assertConfirmButtonText(elt, 'OK Buttton');
-        assert.equal(elt.$.dialog.opened, true);
+        // assert that selectMode event produces events
+        var eventCount = 0;
+        elt.addEventListener('clicked', function(event) { 
+          eventCount += 1;
+        });
+
+        var cmChildren = Polymer.dom(elt.$.carbonMenu.root).children;
+        Array.prototype.forEach.call(cmChildren, function(child) {
+          if (child.nodeName !== "AT-CORE-VIEW") return;
+          MockInteractions.tap(child);
+        });
+
+        assert.equal(eventCount, 3);
+
+        eventCount = 0;
+        // monkey patch link._handleLink to assert that selectMode link works
+        elt.$.link._handleLink = function(event) {
+          eventCount += 1;
+        }
+
+        Array.prototype.forEach.call(cmChildren, function(child) {
+          if (child.nodeName !== "AT-CORE-VIEW") return;
+          MockInteractions.tap(child);
+        });
+
+        assert.equal(eventCount, 3);
+
       });
 
     });
