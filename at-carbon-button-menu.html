@@ -41,7 +41,7 @@
       }
 
       .title-class {
-        vertical-align: middle;        
+        vertical-align: middle;
         overflow: hidden;
         white-space: nowrap;
       }
@@ -128,7 +128,7 @@
           value: "bottomRight"
         }]
       },
-      
+
       selectMode: {
         type: String,
         value: "event",
@@ -170,16 +170,16 @@
       this.$.coreDropdown.hide();
 
       var value = this.$.carbonMenu.value;
-      
+
       if(this.selectMode == "event") {
         this.fire('clicked', { value: value });
       } else {
         // selectMode link means that values contain links
         // use hidden link to open these links
         // *todo* create mixin for link handling
-        for(var idx=0;idx<this.items.length;idx++) {  
-          var link = this.items[idx];      
-         
+        for(var idx=0;idx<this.items.length;idx++) {
+          var link = this.items[idx];
+
           if(link.value==value) {
             this.$.link.href = link.value;
             this.$.link.label = link.title;
