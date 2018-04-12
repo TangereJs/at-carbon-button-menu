@@ -120,7 +120,7 @@
         type: String,
         xtype: 'code',
         mode: 'liquidmixed',
-        value: '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>',
+        value: '{% if settings.href %} <at-link href="{{settings.href}}"> <div class="item-container at-carbon-button-menu"> <at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon> <span class="title-class at-carbon-button-menu">{{title}}</span> </div> </at-link> {% else %} <div class="item-container at-carbon-button-menu"> <at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon> <span class="title-class at-carbon-button-menu">{{title}}</span> </div> {% endif %}',
         xgridcols: "12"
       },
 
