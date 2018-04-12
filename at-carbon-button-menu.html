@@ -5,6 +5,7 @@
 <link rel="import" href="../at-core-dropdown/at-core-dropdown.html" />
 <link rel="import" href="../at-carbon-menu/at-carbon-menu.html" />
 <link rel="import" href="../at-link/at-link.html">
+<link rel="import" href="../at-form-modal/at-form-modal.html">
 
 <dom-module id="at-carbon-button-menu">
   <template>
@@ -24,7 +25,7 @@
       }
 
       .button-label {
-        @apply(--paper-font-body1);
+        @apply --paper-font-body1;
         vertical-align: middle;
       }
 
@@ -91,10 +92,23 @@
                 title: "Value",
                 "default": ""
               },
-              icon: {
-                type: String,
-                title: "Icon",
-                "default": ""
+              settings: {
+                type: "element",
+                xtype: "at-form-modal",
+                title: "Settings",
+                schema: {
+                  properties: {
+                    icon: {
+                      type: String,
+                      title: "Icon",
+                      "default": ""
+                    },
+                    href: {
+                      type: String,
+                      value: ''
+                    }
+                  }
+                }
               }
             }
           }
@@ -106,7 +120,7 @@
         type: String,
         xtype: 'code',
         mode: 'liquidmixed',
-        value: '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>',
+        value: '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>',
         xgridcols: "12"
       },
 
