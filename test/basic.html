@@ -407,7 +407,7 @@
     </test-fixture>
     
   <script>
-    var itemViewInitVal = '<div class="item-container at-carbon-button-menu"><at-carbon-icon icon="{{icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon><span class="title-class at-carbon-button-menu">{{title}}</span></div>';
+    var itemViewInitVal = '{% if settings.href %} <at-link href="{{settings.href}}"> <div class="item-container at-carbon-button-menu"> <at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon> <span class="title-class at-carbon-button-menu">{{title}}</span> </div> </at-link> {% else %} <div class="item-container at-carbon-button-menu"> <at-carbon-icon icon="{{settings.icon}}" class="icon-class at-carbon-button-menu"></at-carbon-icon> <span class="title-class at-carbon-button-menu">{{title}}</span> </div> {% endif %}';
 
     suite('initial value tests', function() {
       test('initial value', function() {
