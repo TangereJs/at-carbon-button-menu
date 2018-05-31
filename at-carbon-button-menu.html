@@ -47,7 +47,7 @@
         white-space: nowrap;
       }
     </style>
-    <at-carbon-button raised id="carbonButton">
+    <at-carbon-button raised id="carbonButton" on-tap="_handleCarbonButtonOnTap">
       <template is="dom-if" if="[[icon]]">
         <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
       </template>
@@ -156,10 +156,6 @@
         }]
       },
 
-    },
-
-    listeners: {
-      'carbonButton.tap': '_handleCarbonButtonOnTap'
     },
 
     _computeLabelClassList: function(icon) {

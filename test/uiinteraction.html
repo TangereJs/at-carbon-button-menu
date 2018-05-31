@@ -40,7 +40,15 @@
         if (!value) {
           // assert icon html
           var iconElt = elt.$.carbonButton.getEffectiveChildren()[0];
-          assert.equal(iconElt.nodeName, "TEMPLATE");
+          // START OF HYBRID BEHAVIOR
+          // In polymer 1.x iconElt is <template is="dom-if"> element
+          // In polymer 2.x iconElt is <dom-if> element
+          // In practice this is one and the same element, just in P2.x they introduced dom-[if, repeat etc...] and removed template is="[dom-if, dom-repeat etc... ]"
+          // we detect the polymer version here because shadowRoot exists in P1.x with ?dom=shadow query param and in that case expected nodeName should be template
+          var v = parseInt(Polymer.version);
+          var expectedNodeName = v == 2 ? "DOM-IF" : "TEMPLATE";
+          assert.equal(iconElt.nodeName, expectedNodeName);
+          // END OF HYBRID BEHAVIOR
         
         } else {
           // assert icon html
