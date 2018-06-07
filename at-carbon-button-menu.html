@@ -16,7 +16,7 @@
       }
 
       .arrow-icon-container {
-        vertical-align: middle;
+        
       }
 
       .arrow-icon {
@@ -25,8 +25,7 @@
       }
 
       .button-label {
-        @apply --paper-font-button;
-        vertical-align: middle;
+        @apply --paper-font-button;       
       }
 
       .button-label.with-icon {
@@ -41,13 +40,12 @@
         padding: 0 12px 0 0;
       }
 
-      .title-class {
-        vertical-align: middle;
+      .title-class {        
         overflow: hidden;
         white-space: nowrap;
       }
     </style>
-    <at-carbon-button raised id="carbonButton" on-tap="_handleCarbonButtonOnTap">
+    <at-carbon-button id="carbonButton" on-tap="_handleCarbonButtonOnTap">
       <template is="dom-if" if="[[icon]]">
         <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
       </template>
