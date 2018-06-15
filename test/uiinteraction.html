@@ -78,15 +78,10 @@
 
         var cm = elt.$.carbonMenu;
         assert.deepEqual(cm.items, value);
+        var cCount = Polymer.dom(cm.root).querySelectorAll('at-core-view').length;
 
-        var cCount = Polymer.dom(cm.root).children.length;
         // assert correct number of children based on shady/shadow root
-        if (cm.shadowRoot) {
-          assert.equal(cCount, value.length+2);
-          
-        } else {
-          assert.equal(cCount, value.length+1);
-        }
+        assert.equal(cCount, value.length);
 
         // assert that arrowIcon is correctly hidden
         if (value.length) {
